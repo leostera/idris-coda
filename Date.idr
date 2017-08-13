@@ -2,6 +2,7 @@ module Date
 
 import Data.Vect
 
+%access public export
 %default total
 
 {-
@@ -176,20 +177,3 @@ data DateRange : Type where
 
 distanceInRange : DateRange -> Integer
 distanceInRange (MkDateRange begin end) = distanceBetweenDates begin end
-
-{-
-  Sample Dates
--}
-
-date_one : Date
-date_one = MkDate (MkDay 28) September (MkYear 1991)
-
-date_two : Date
-date_two = MkDate (MkDay 29) February (MkYear 2008)
-
-date_three : Date
-date_three = MkDate (MkDay 30) September (MkYear 1992)
-
-{-
-  Ranges Logic
--}
