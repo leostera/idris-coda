@@ -87,6 +87,5 @@ instantToSeconds (MkInstant h m (MkSec s)) = (hourToSeconds h) +
                                              (minuteToSeconds m) +
                                              (toIntegerNat s)
 
-distance : Range { a = Instant } t i i' -> Integer
-distance (MkRange i i') = instantToSeconds i' - instantToSeconds i
-
+Distance Instant Integer where
+  distance (MkRange x y) = (instantToSeconds y) - (instantToSeconds x)
