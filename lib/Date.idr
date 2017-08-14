@@ -1,7 +1,5 @@
 module Date
 
-import Data.Vect
-
 import Range
 
 %access public export
