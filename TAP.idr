@@ -29,3 +29,4 @@ plan desc tests {n} = do putStrLn "TAP version 13"
                          putStrLn ("1.." ++ show n)
                          runTests 1 tests
                          stamp $ comment "done"
+

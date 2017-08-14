@@ -120,4 +120,3 @@ Ord Date where
                     EQ => compare y y'
                     result => result
          result => result
-

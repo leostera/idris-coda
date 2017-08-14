@@ -13,3 +13,4 @@ data Range : Type -> a -> a -> Type where
 
 inRange : Range t a b -> (value : t) -> Type
 inRange (MkRange a b) y = Dec (a < y = y < b)
+

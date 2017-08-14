@@ -26,3 +26,4 @@ daysInDate (MkDate (MkDay days) month year@(MkYear y)) =
 
 distance : Range { a = Date } t d d' -> Integer
 distance (MkRange d d') = daysInDate d' - daysInDate d
+
