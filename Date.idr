@@ -2,24 +2,10 @@ module Date
 
 import Data.Vect
 
+import Range
+
 %access public export
 %default total
-
-{-
-  Helpers
--}
-
-||| Generic Type for Non-inclusive Range of Integers
-data Range : Integer -> Integer -> Type where
-  MkRange : (min : Integer) -> (max : Integer) -> Range min max
-
-||| Proof that an integer is in range
-inRange : Range min max -> Integer -> Type
-inRange (MkRange min max) x = Dec (x > min = x < max)
-
-{-
-  Date Specific
--}
 
 data Year : Type where
   MkYear : (year : Integer) -> Year
@@ -59,7 +45,7 @@ monthOrder October   = 10
 monthOrder November  = 11
 monthOrder December  = 12
 
-monthDays : Year -> Month -> Integer
+monthDays : Year -> Month -> Nat
 monthDays _    January   = 30
 monthDays year February  = if isLeap year then 29 else 28
 monthDays _    March     = 30
@@ -93,16 +79,10 @@ data Day : Type where
 %name Day d,d1,d2,d3
 
 inDayRange : Nat -> Day -> Type
-inDayRange n (MkDay day) =
-  let
-    n' = toIntegerNat n
-    range = (MkRange 1 (n'+1))
-    day' = (toIntegerNat day)
-  in
-    inRange range day'
+inDayRange n (MkDay day) = inRange (MkRange Z (S n)) day
 
 validDate : Year -> Month -> Day -> Type
-validDate year month = inDayRange (toNat $ monthDays year month)
+validDate year month = inDayRange (monthDays year month)
 
 data Date : Type where
   MkDate : (day : Day) ->
@@ -141,39 +121,3 @@ Ord Date where
                     result => result
          result => result
 
-beginIsBeforeEnd : Date -> Date -> Type
-beginIsBeforeEnd begin end = case compare begin end of
-                                  LT => Dec (begin = begin)
-                                  _ => Not (begin = end)
-
-daysToMonth : Year -> Month -> Integer
-daysToMonth year month = count (previousMonth month) (monthOrder $ previousMonth month)
-  where
-    count : Month -> Nat -> Integer
-    count m Z = 0
-    count m (S k) = (monthDays year m) + count (previousMonth m) k
-
-daysInDate : Date -> Integer
-daysInDate (MkDate (MkDay days) month year@(MkYear y)) =
-  let
-    yearDays = (y - 1) * 365
-    monthDays = daysToMonth year month
-  in
-    yearDays + monthDays + (toIntegerNat days)
-
-
-distanceBetweenDates : (begin : Date) ->
-                       (end : Date) ->
-                       { auto prf : (beginIsBeforeEnd begin end) } -> Integer
-distanceBetweenDates a b = daysInDate b - daysInDate a
-
-data DateRange : Type where
-  MkDateRange : (begin : Date) ->
-                (end : Date) ->
-                { auto prf : (beginIsBeforeEnd begin end) } ->
-                DateRange
-
-%name DateRange dr,dr1,dr2,dr3
-
-distanceInRange : DateRange -> Integer
-distanceInRange (MkDateRange begin end) = distanceBetweenDates begin end
