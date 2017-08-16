@@ -135,7 +135,13 @@ Ord Offset where
          r => r
 
 Show Offset where
-  show (MkOffset sign (MkInstant h m _)) = show sign ++ show h ++ ":" ++ show m
+  show (MkOffset sign i@(MkInstant h m _)) =
+    if isZero i
+       then "Z"
+       else show sign ++ show h ++ ":" ++ show m
+    where isZero : Instant -> Bool
+          isZero (MkInstant (MkHour Z) (MkMin Z) (MkSec Z)) = True
+          isZero _ = False
 
 Eq (TimeZone offset) where
   (==) (MkTimeZone name _) (MkTimeZone name' _) = name == name'
@@ -173,3 +179,8 @@ instantToSeconds (MkInstant h m (MkSec s)) = (hourToSeconds h) +
 Distance Instant Integer where
   distance (MkRange x y) = (instantToSeconds y) - (instantToSeconds x)
 
+instantZero : Instant
+instantZero = (MkInstant (MkHour 0) (MkMin 0) (MkSec 0))
+
+UTC : TimeZone (MkOffset (+) Time.instantZero)
+UTC = MkTimeZone "UTC" (MkOffset (+) instantZero)
