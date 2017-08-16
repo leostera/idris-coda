@@ -6,6 +6,11 @@ import Data.Vect
 %default total
 %access private
 
+{-
+  TAP v13 Test Output Producer and Runner
+
+-}
+
 comment : String -> IO ()
 comment s = putStrLn ("# " ++ s)
 
