@@ -24,6 +24,5 @@ daysInDate (MkDate (MkDay days) month year@(MkYear y)) =
   in
     yearDays + monthDays + (toIntegerNat days)
 
-distance : Range { a = Date } t d d' -> Integer
-distance (MkRange d d') = daysInDate d' - daysInDate d
-
+Distance Date Integer where
+  distance (MkRange (MkDate day month year) y) = ?Distance_rhs_1

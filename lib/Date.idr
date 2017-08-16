@@ -5,6 +5,22 @@ import Range
 %access public export
 %default total
 
+{-
+  ISO 8601 Date Package
+
+  Date Representation inclues:
+
+    Year - Month - Day
+
+  Show interface includes zero-padding of up to 3 zeroes for Year, and 1 zero
+  for month and day.
+
+-}
+
+{-
+  Type Definitions
+-}
+
 data Year : Type where
   MkYear : (year : Integer) -> Year
 
@@ -83,12 +99,17 @@ validDate : Year -> Month -> Day -> Type
 validDate year month = inDayRange (monthDays year month)
 
 data Date : Type where
-  MkDate : (day : Day) ->
+  MkDate : (year : Year) ->
            (month : Month) ->
-           (year : Year) ->
+           (day : Day) ->
            { auto p : (validDate year month day) } -> Date
 
 %name Date d,d1,d2,d3
+
+
+{-
+  Standard Interface Implementations
+-}
 
 Eq Year where
   (==) (MkYear y) (MkYear y') = y == y'
@@ -100,7 +121,7 @@ Eq Day where
   (==) (MkDay y) (MkDay y') = y == y'
 
 Eq Date where
-  (==) (MkDate d m y) (MkDate d' m' y') = d == d' && m == m' && y == y'
+  (==) (MkDate y m d) (MkDate y' m' d') = d == d' && m == m' && y == y'
 
 Ord Year where
   compare (MkYear y) (MkYear y') = compare y y'
@@ -112,9 +133,37 @@ Ord Day where
   compare (MkDay d) (MkDay d') = compare d d'
 
 Ord Date where
-  compare (MkDate d m y) (MkDate d' m' y') =
+  compare (MkDate y m d) (MkDate y' m' d') =
     case compare y y' of
          EQ => case compare m m' of
-                    EQ => compare y y'
+                    EQ => compare d d'
                     result => result
          result => result
+
+Show Year where
+  show (MkYear year) =
+    let s = show year
+    in case length s of
+            Z => "0000"
+            (S Z) => "000" ++ s
+            (S (S Z)) => "00" ++ s
+            (S (S (S Z))) => "0" ++ s
+            _ => s
+
+Show Month where
+  show x =
+    let s = show $ monthOrder x
+    in case length s of
+            (S Z) => "0" ++ s
+            _ => s
+
+Show Day where
+  show (MkDay day) =
+    let s = show day
+    in case length s of
+            (S Z) => "0" ++ s
+            _ => s
+
+Show Date where
+  show (MkDate y m d) = show y ++ "-" ++ show m ++ "-" ++ show d
+
