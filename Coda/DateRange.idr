@@ -1,7 +1,7 @@
 module DateRange
 
-import Contrib.Date
-import Contrib.Range
+import Coda.Date
+import Coda.Range
 
 %access public export
 %default total

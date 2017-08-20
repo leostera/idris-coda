@@ -8,7 +8,7 @@ OUT = server.js
 all: $(OUT)
 
 codegen:
-	$(IDRIS) -p Contrib --codegen node ./Server.idr -o $(OUT)
+	$(IDRIS) -p Coda --codegen node ./Server.idr -o $(OUT)
 
 run: codegen
 	$(NODE) $(OUT)

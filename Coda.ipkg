@@ -1,4 +1,4 @@
-package Contrib
+package Coda
 
 author = Leandro Ostera <leandro@ostera.io>
 brief = "A collection of Idris packages"
@@ -9,12 +9,12 @@ readme = ./README.md
 sourceloc  = git://git@github.com:ostera/idris-contrib.git
 version = 0.1
 
-modules = Contrib.Date
-        , Contrib.DateRange
-        , Contrib.DateTime
-        , Contrib.Node.Core
-        , Contrib.Node.FS
-        , Contrib.Node.HTTP
-        , Contrib.Range
-        , Contrib.TAP
-        , Contrib.Time
+modules = Coda.Date
+        , Coda.DateRange
+        , Coda.DateTime
+        , Coda.Node.Core
+        , Coda.Node.FS
+        , Coda.Node.HTTP
+        , Coda.Range
+        , Coda.TAP
+        , Coda.Time

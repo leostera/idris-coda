@@ -1,6 +1,6 @@
 module Node.FS
 
-import Contrib.Node.Core
+import Coda.Node.Core
 
 %access public export
 %default total

@@ -1,7 +1,7 @@
 module Main
 
-import Contrib.Node.Core
-import Contrib.Node.HTTP
+import Coda.Node.Core
+import Coda.Node.HTTP
 
 %default total
 

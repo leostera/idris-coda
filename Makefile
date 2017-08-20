@@ -5,7 +5,7 @@ IDRIS = $(shell which idris >/dev/null && which idris)
 all: build
 
 build: $(PACKAGES)
-	$(IDRIS) --install Contrib.ipkg
+	$(IDRIS) --install Coda.ipkg
 
 clean:
 	rm -f ./**/*.ibc

@@ -1,6 +1,6 @@
 module Time
 
-import Contrib.Range
+import Coda.Range
 
 %access public export
 %default total

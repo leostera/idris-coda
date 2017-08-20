@@ -1,2 +1,2 @@
-# idris-contrib
-> A collection of Idris libraries
+# idris-coda
+A collection of Idris packages
