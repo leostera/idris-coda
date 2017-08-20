@@ -12,3 +12,6 @@ codegen:
 
 run: codegen
 	$(NODE) $(OUT)
+
+clean:
+	rm -f $(OUT)
