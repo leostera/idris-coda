@@ -23,14 +23,14 @@ namespace JS
   JsProp a = Ptr -> String -> JS_IO a
 
   ||| General property accessing
-  prop : { ty : Type } -> { auto prf : (ffi_js (JsProp ty)) } -> JsProp ty
+  prop : { auto ty : Type } -> { auto prf : (ffi_js (JsProp ty)) } -> JsProp ty
   prop {ty} = eval { ty = (JsProp ty) } "%0[%1]"
 
   ||| General method application, if it worked.
   ||| @a method input type
   ||| @b method output type
-  method : { a : Type } ->
-           { b : Type } ->
+  method : { auto a : Type } ->
+           { auto b : Type } ->
            { auto prf : (ffi_js (JsMethod a b)) } -> JsMethod a b
   method {a} {b} = eval { ty = (JsMethod a b) } "%0[%1](%2)"
 
@@ -62,13 +62,15 @@ namespace HTTP
     MkPort : (n : Int) -> { auto p : Dec ( n > 0 = True ) } -> Port
 
   Handler : Type
-  Handler = () -> JS_IO ()
+  Handler = Ptr -> JS_IO ()
 
   partial
   createServer : Handler -> JS_IO Server
   createServer handler = do
     http <- require "http"
-    server <- method { a = (JsFn Handler) } { b = Ptr } http "createServer" (MkJsFn handler)
+    server <- eval { ty = (Ptr -> String -> (JsFn Handler) -> JS_IO Ptr) }
+                   "%0[%1]( (req, res) => %2({req, res}))"
+                   http "createServer" (MkJsFn handler)
     pure $ MkServer server
 
   listen : Server -> Port -> JS_IO ()
@@ -81,7 +83,18 @@ namespace HTTP
 -}
 
 sampleHandler : HTTP.Handler
-sampleHandler () = JS.log "sample handler called"
+sampleHandler params = do
+  req <- prop { ty = Ptr } params "req"
+  res <- prop { ty = Ptr } params "res"
+
+  httpMethod <- prop { ty = String } req "method"
+  JS.log ("sample handler called with method " ++ httpMethod)
+
+  path   <- prop { ty = String } req "url"
+  JS.log ("sample handler called with path " ++ path)
+
+  let result = "You visited: " ++ path
+  method { a = String } { b = () } res "end" result
 
 partial
 main : JS_IO ()
