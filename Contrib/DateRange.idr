@@ -1,7 +1,7 @@
 module DateRange
 
-import Date
-import Range
+import Contrib.Date
+import Contrib.Range
 
 %access public export
 %default total
@@ -17,12 +17,11 @@ daysToMonth year month = count month' (monthOrder month')
     month' = previousMonth month
 
 daysInDate : Date -> Integer
-daysInDate (MkDate (MkDay days) month year@(MkYear y)) =
+daysInDate (MkDate year@(MkYear y) month (MkDay days)) =
   let
     yearDays = (y - 1) * 365
     monthDays = daysToMonth year month
   in
     yearDays + monthDays + (toIntegerNat days)
 
-Distance Date Integer where
-  distance (MkRange (MkDate day month year) y) = ?Distance_rhs_1
+-- Distance Date Integer where

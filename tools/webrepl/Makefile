@@ -8,10 +8,11 @@ OUT = server.js
 all: $(OUT)
 
 codegen:
-	$(IDRIS) --codegen node ./Server.idr -o $(OUT)
+	$(IDRIS) -p Contrib --codegen node ./Server.idr -o $(OUT)
 
 run: codegen
 	$(NODE) $(OUT)
 
 clean:
 	rm -f $(OUT)
+	rm -f *.ibc 

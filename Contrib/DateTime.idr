@@ -1,7 +1,7 @@
 module DateTime
 
-import Date
-import Time
+import Contrib.Date
+import Contrib.Time
 
 {-
   ISO 8601 DateTime Package

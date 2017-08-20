@@ -1,6 +1,6 @@
 module Time
 
-import Range
+import Contrib.Range
 
 %access public export
 %default total
