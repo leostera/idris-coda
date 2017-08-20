@@ -1,0 +1,20 @@
+package Contrib
+
+author = Leandro Ostera <leandro@ostera.io>
+brief = "A collection of Idris packages"
+bugtracker = https://github.com/ostera/idris-contrib/issues
+homepage = https://github.com/ostera/idris-contrib
+license = BSD 3-Clause
+readme = ./README.md
+sourceloc  = git://git@github.com:ostera/idris-contrib.git
+version = 0.1
+
+modules = Contrib.Date
+        , Contrib.DateRange
+        , Contrib.DateTime
+        , Contrib.Node.Core
+        , Contrib.Node.FS
+        , Contrib.Node.HTTP
+        , Contrib.Range
+        , Contrib.TAP
+        , Contrib.Time
