@@ -1,0 +1,47 @@
+name:                idris-wasm
+version:             0.0.0.1
+-- synopsis:
+-- description:
+homepage:            https://github.com/ostera/idris-coda#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Leandro Ostera
+maintainer:          leandro@ostera.io
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+Extra-source-files:   rts/*
+
+executable idris-wasm-exe
+  hs-source-dirs:      src
+  main-is:             Main.hs
+  build-depends:       base
+                     , idris-wasm
+                     , idris
+                     , containers
+                     , directory
+                     , filepath
+                     , haskeline >= 0.7
+                     , mtl
+                     , transformers
+
+  other-modules: IRTS.CodegenWasm
+
+  if os(linux)
+    cpp-options:   -DLINUX
+    build-depends: unix < 2.8
+  if os(freebsd)
+    cpp-options:   -DFREEBSD
+    build-depends: unix < 2.8
+  if os(dragonfly)
+    cpp-options:   -DDRAGONFLY
+    build-depends: unix < 2.8
+  if os(darwin)
+    cpp-options:   -DMACOSX
+    build-depends: unix < 2.8
+  if os(windows)
+    cpp-options:   -DWINDOWS
+    build-depends: Win32 < 2.4
+
+  ghc-prof-options: -auto-all -caf-all
+  ghc-options:         -threaded -rtsopts -funbox-strict-fields
